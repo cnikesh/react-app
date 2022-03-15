@@ -75,7 +75,7 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --data '{
             "title":"Automated issue for commit:${{
-            github.sha}}""
+            github.sha}}"
             "body":"This is an automated issue created by workflow **${{github.workflow}}**
             \n\nThe commit hash was: _${{github.sha}}
             }_.",
