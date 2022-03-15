@@ -67,3 +67,18 @@ jobs:
         run: npx codecov
         env:
           CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+      - name: Open Issue
+        if: failure() && github.event_name == 'push'
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{github.repository}}/issues \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --data '{
+            "title":"Automated issue for commit:${{
+            github.sha}}""
+            "body":"This is an automated issue created by workflow **${{github.workflow}}**
+            \n\nThe commit hash was: _${{github.sha}}
+            }_.",
+            "assignes":["${{
+            github.event.pull_request.user.login}}"]
+            }'
