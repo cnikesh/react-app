@@ -42,7 +42,12 @@ jobs:
         with:
           name: build
           path: build
-      - run: npm install -g surge 
+      - run: npm install -g surge
+      - name: ZIP Assets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: |
+          zip -r build.zip ./build 
+          zip -r coverage.zip ./coverage 
       - name:  Create a release
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: npx -p node@lts -c "npx semantic-release"
